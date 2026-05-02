@@ -1,0 +1,49 @@
+.rekap-root { min-height:100vh; background:var(--c-deepest); display:flex; flex-direction:column; }
+
+/* Navbar */
+.rekap-nav { display:flex; align-items:center; justify-content:space-between; padding:0 24px; height:60px; background:rgba(43,18,76,0.9); backdrop-filter:blur(12px); border-bottom:1px solid rgba(133,79,108,0.2); position:sticky; top:0; z-index:100; }
+.nav-back { display:flex; align-items:center; gap:7px; background:none; color:var(--c-blush); font-size:13px; font-weight:500; padding:6px 12px; border-radius:var(--radius-sm); border:1px solid rgba(133,79,108,0.25); transition:all var(--transition); }
+.nav-back:hover { background:rgba(133,79,108,0.15); color:var(--c-cream); }
+.nav-center { position:absolute; left:50%; transform:translateX(-50%); }
+.nav-date { font-size:13px; font-weight:600; color:var(--c-blush); opacity:0.8; }
+.nav-export { display:flex; align-items:center; gap:8px; background:linear-gradient(135deg,#854F6C,#522B5B); color:var(--c-cream); font-size:13px; font-weight:600; padding:8px 18px; border-radius:var(--radius-sm); transition:all var(--transition); }
+.nav-export:hover:not(:disabled) { transform:translateY(-1px); box-shadow:0 4px 16px rgba(133,79,108,0.4); }
+.nav-export:disabled { opacity:0.6; cursor:not-allowed; }
+
+/* Main */
+.rekap-main { flex:1; padding:32px; max-width:1300px; width:100%; margin:0 auto; display:flex; flex-direction:column; gap:24px; }
+
+/* Header */
+.rekap-header { display:flex; align-items:flex-start; justify-content:space-between; gap:24px; }
+.rekap-title { font-family:var(--font-serif); font-size:32px; font-weight:400; color:var(--c-cream); margin-bottom:6px; }
+.rekap-sub { font-size:13px; color:var(--c-blush); opacity:0.6; font-weight:500; }
+
+.summary-row { display:flex; gap:12px; flex-shrink:0; }
+.sum-card { background:rgba(43,18,76,0.6); border:1px solid rgba(133,79,108,0.2); border-radius:var(--radius-md); padding:14px 20px; text-align:center; min-width:90px; }
+.sum-num { display:block; font-size:28px; font-weight:700; color:var(--c-cream); line-height:1; margin-bottom:4px; }
+.sum-label { font-size:11px; color:var(--c-blush); opacity:0.6; text-transform:uppercase; letter-spacing:0.04em; font-weight:600; }
+.sum-card.green .sum-num { color:#a8e6a3; }
+.sum-card.red .sum-num { color:#ffb3b3; }
+
+/* Table */
+.table-wrap { overflow-x:auto; border-radius:var(--radius-md); border:1px solid rgba(133,79,108,0.2); }
+.rekap-table { width:100%; border-collapse:collapse; font-size:13px; }
+.rekap-table th { padding:11px 14px; background:rgba(82,43,91,0.6); color:var(--c-blush); font-weight:700; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-bottom:1px solid rgba(133,79,108,0.3); white-space:nowrap; }
+.rekap-table td { padding:10px 14px; color:var(--c-cream); border-bottom:1px solid rgba(133,79,108,0.1); vertical-align:top; }
+.rekap-table tr:last-child td { border-bottom:none; }
+.rekap-table tr:hover td { background:rgba(133,79,108,0.06); }
+.rekap-table tr.has-absent td { background:rgba(82,43,91,0.15); }
+.rekap-table td.center { text-align:center; }
+.rekap-table td.hadir { color:#a8e6a3; font-weight:700; }
+.rekap-table td.absent-cell { color:var(--c-blush); font-size:12px; max-width:320px; line-height:1.6; }
+
+/* Footer */
+.rekap-footer { display:flex; flex-direction:column; align-items:center; gap:10px; padding:8px 0 24px; }
+.btn-export { display:flex; align-items:center; gap:10px; background:linear-gradient(135deg,#854F6C,#522B5B); color:var(--c-cream); font-size:15px; font-weight:700; padding:16px 36px; border-radius:var(--radius-md); box-shadow:0 4px 20px rgba(133,79,108,0.35); transition:all var(--transition); }
+.btn-export:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 8px 28px rgba(133,79,108,0.5); }
+.btn-export:disabled { opacity:0.6; cursor:not-allowed; transform:none; }
+.export-hint { font-size:12px; color:var(--c-blush); opacity:0.45; }
+
+/* Spinner */
+.exp-spinner { width:15px; height:15px; border:2px solid rgba(251,228,216,0.3); border-top-color:var(--c-cream); border-radius:50%; animation:rspin 0.7s linear infinite; display:inline-block; }
+@keyframes rspin { to { transform:rotate(360deg); } }
