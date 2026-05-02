@@ -74,3 +74,14 @@
 .btn-mulai.disabled { opacity:0.45; cursor:not-allowed; background:var(--bg-hover); box-shadow:none; color:var(--text-muted); }
 .mulai-hint { font-size:13px; color:var(--text-muted); text-align:center; }
 .mulai-hint strong { color:var(--c-mauve); }
+
+/* ── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .dash-nav { padding:0 16px; }
+  .nav-title { display:none; }
+  .dash-main { padding:24px 16px; }
+  .dash-title { font-size:26px; }
+  .dash-grid { grid-template-columns:1fr; }
+  .tanggal-grid { grid-template-columns:1fr 1fr; }
+  .tanggal-grid .t-field:last-child { grid-column:1/-1; }
+}

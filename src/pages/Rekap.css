@@ -40,3 +40,16 @@
 .export-hint { font-size:12px; color:var(--text-muted); }
 .exp-spinner { width:15px; height:15px; border:2px solid rgba(251,228,216,0.3); border-top-color:#FBE4D8; border-radius:50%; animation:rspin 0.7s linear infinite; display:inline-block; }
 @keyframes rspin { to { transform:rotate(360deg); } }
+
+/* ── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .rekap-nav { padding:0 16px; }
+  .nav-center { display:none; }
+  .rekap-main { padding:20px 16px; }
+  .rekap-title { font-size:24px; }
+  .rekap-header { flex-direction:column; gap:16px; }
+  .summary-row { width:100%; justify-content:space-between; }
+  .sum-card { flex:1; min-width:unset; padding:12px 8px; }
+  .sum-num { font-size:22px; }
+  .btn-export { width:100%; justify-content:center; padding:14px 20px; }
+}

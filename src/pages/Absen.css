@@ -74,3 +74,65 @@
 .pnav-btn.next:hover { transform:translateY(-1px); box-shadow:0 4px 16px rgba(133,79,108,0.4); }
 .pnav-btn.finish { background:linear-gradient(135deg,#DFB6B2,#854F6C); }
 .pnav-info { font-size:13px; color:var(--text-muted); font-weight:500; }
+
+/* ── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .absen-nav { padding:0 12px; }
+  .nav-center { display:none; }
+  .nav-date-mobile { font-size:12px; color:var(--text-muted); display:block; }
+
+  .absen-body { flex-direction:column; }
+
+  /* Sidebar jadi drawer dari atas */
+  .absen-sidebar {
+    width:100%;
+    height:auto;
+    border-right:none;
+    border-bottom:1px solid var(--border-sidebar);
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.35s cubic-bezier(0.4,0,0.2,1);
+  }
+  .absen-sidebar.open {
+    max-height:340px;
+    overflow-y:auto;
+  }
+  .sidebar-list { flex-direction:row; flex-wrap:wrap; padding:8px; gap:4px; }
+  .sidebar-item { width:auto; flex:none; font-size:11px; padding:6px 10px; }
+  .sidebar-kelas { font-size:11px; }
+  .sidebar-total { display:none; }
+  .sidebar-progress { display:none; }
+
+  /* Toggle button */
+  .sidebar-toggle {
+    display:flex;
+    align-items:center;
+    gap:8px;
+    width:100%;
+    padding:10px 16px;
+    background:var(--bg-sidebar);
+    border-bottom:1px solid var(--border-sidebar);
+    color:var(--text-sub);
+    font-size:13px;
+    font-weight:600;
+  }
+  .sidebar-toggle svg { color:var(--c-mauve); }
+  .sidebar-toggle .toggle-progress {
+    margin-left:auto;
+    font-size:12px;
+    color:var(--c-mauve);
+    font-weight:700;
+  }
+
+  .absen-panel { padding:16px; gap:12px; }
+  .panel-header { flex-direction:column; gap:12px; }
+  .panel-kelas { font-size:22px; }
+  .counter-row { padding:10px 14px; gap:10px; }
+  .counter-num { font-size:18px; }
+  .panel-nav { flex-wrap:wrap; gap:8px; }
+  .pnav-btn { flex:1; justify-content:center; font-size:12px; padding:10px 12px; }
+  .pnav-info { width:100%; text-align:center; order:-1; }
+}
+
+/* Hide toggle button on desktop */
+.sidebar-toggle { display:none; }

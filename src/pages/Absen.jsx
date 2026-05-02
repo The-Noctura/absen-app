@@ -23,6 +23,7 @@ export default function Absen() {
 
   const [activeIdx, setActiveIdx] = useState(0)
   const [search, setSearch]       = useState('')
+  const [sidebarOpen,  setSidebarOpen]  = useState(false)
   const searchRef = useRef()
 
   // absenMap: { [namaKelas]: { [siswaId]: { tidakHadir: bool, ket: string } } }
@@ -122,15 +123,22 @@ export default function Absen() {
 
       <div className="absen-body">
 
+        {/* Mobile sidebar toggle */}
+        <button className="sidebar-toggle" onClick={() => setSidebarOpen(o => !o)}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          Pilih Kelas
+          <span className="toggle-progress">{kelasList.filter(k => isDone(k)).length}/{kelasList.length} selesai</span>
+        </button>
+
         {/* Sidebar */}
-        <aside className="absen-sidebar">
+        <aside className={`absen-sidebar ${sidebarOpen ? 'open' : ''}`}>
           <p className="sidebar-label">Daftar Kelas</p>
           <div className="sidebar-list">
             {kelasList.map((k, i) => (
               <button
                 key={i}
                 className={`sidebar-item ${i === activeIdx ? 'active' : ''} ${isDone(k) ? 'done' : ''}`}
-                onClick={() => { setActiveIdx(i); setSearch('') }}
+                onClick={() => { setActiveIdx(i); setSearch(""); setSidebarOpen(false) }}
               >
                 <span className="sidebar-dot">
                   {isDone(k) ? (
