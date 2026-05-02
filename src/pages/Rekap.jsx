@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getKelasData, getTanggal, getAbsenData } from '../utils/store'
 import { exportToWord } from '../utils/wordExporter'
+import ThemeToggle from '../components/ThemeToggle'
 import './Rekap.css'
 
 const BULAN = ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember']
@@ -55,16 +56,19 @@ export default function Rekap() {
         <div className="nav-center">
           <span className="nav-date">{tanggal.namaHari}, {tanggal.tanggal} {BULAN[tanggal.bulan]} {tanggal.tahun}</span>
         </div>
-        <button className={`nav-export ${exporting ? 'loading' : ''}`} onClick={handleExport} disabled={exporting}>
-          {exporting ? (
-            <><span className="exp-spinner"/> Membuat file...</>
-          ) : (
-            <><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-              <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
-            </svg>Export Word</>
-          )}
-        </button>
+        <div className="nav-right">
+          <ThemeToggle />
+          <button className={`nav-export ${exporting ? 'loading' : ''}`} onClick={handleExport} disabled={exporting}>
+            {exporting ? (
+              <><span className="exp-spinner"/> Membuat file...</>
+            ) : (
+              <><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>Export Word</>
+            )}
+          </button>
+        </div>
       </nav>
 
       <main className="rekap-main">

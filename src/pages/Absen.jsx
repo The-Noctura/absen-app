@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getKelasData, getTanggal, getAbsenData, saveAbsenData } from '../utils/store'
 import { logout } from '../utils/auth'
+import ThemeToggle from '../components/ThemeToggle'
 import './Absen.css'
 
 const KET_OPTIONS = [
@@ -108,12 +109,15 @@ export default function Absen() {
             {tanggal.namaHari}, {tanggal.tanggal} {BULAN[tanggal.bulan]} {tanggal.tahun}
           </span>
         </div>
-        <button className="nav-selesai" onClick={handleSelesai}>
-          Lihat Rekap
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
-        </button>
+        <div className="nav-right">
+          <ThemeToggle />
+          <button className="nav-selesai" onClick={handleSelesai}>
+            Lihat Rekap
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
       </nav>
 
       <div className="absen-body">
