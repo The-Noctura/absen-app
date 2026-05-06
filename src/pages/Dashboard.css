@@ -85,3 +85,13 @@
   .tanggal-grid { grid-template-columns:1fr 1fr; }
   .tanggal-grid .t-field:last-child { grid-column:1/-1; }
 }
+
+/* Info XI/XII */
+.info-1112 {
+  display:flex; align-items:center; gap:8px;
+  padding:10px 14px; border-radius:var(--radius-sm);
+  font-size:13px; font-weight:500;
+}
+.info-1112.found  { background:rgba(45,138,78,0.12); border:1px solid rgba(45,138,78,0.25); color:#2d8a4e; }
+.info-1112.manual { background:rgba(133,79,108,0.12); border:1px solid rgba(133,79,108,0.25); color:var(--c-mauve); }
+.info-icon { font-size:14px; }

@@ -53,3 +53,6 @@
   .sum-num { font-size:22px; }
   .btn-export { width:100%; justify-content:center; padding:14px 20px; }
 }
+
+.section-label { font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px; display:flex; align-items:center; gap:8px; }
+.section-count { font-size:11px; background:var(--bg-hover); color:var(--c-mauve); padding:2px 8px; border-radius:99px; font-weight:600; text-transform:none; letter-spacing:0; }

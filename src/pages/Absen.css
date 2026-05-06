@@ -136,3 +136,9 @@
 
 /* Hide toggle button on desktop */
 .sidebar-toggle { display:none; }
+
+/* ── Tabs ─────────────────────────────────────────────── */
+.nav-tabs { display:flex; gap:4px; background:rgba(25,0,25,0.3); padding:4px; border-radius:var(--radius-sm); }
+.nav-tab  { padding:6px 14px; border-radius:6px; font-size:13px; font-weight:600; color:var(--text-muted); background:none; transition:all var(--transition); }
+.nav-tab.active { background:linear-gradient(135deg,#854F6C,#522B5B); color:#FBE4D8; }
+.nav-tab:hover:not(.active) { color:var(--text-main); background:var(--bg-hover); }

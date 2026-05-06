@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { parseExcel } from '../utils/excelParser'
-import { saveKelasData, saveTanggal, getKelasData, getTanggal } from '../utils/store'
+import { saveKelasData, saveKelas1112, saveTanggal, getKelasData, getKelas1112, getTanggal } from '../utils/store'
 import { logout } from '../utils/auth'
 import ThemeToggle from '../components/ThemeToggle'
 import './Dashboard.css'
@@ -18,7 +18,8 @@ export default function Dashboard() {
   const navigate = useNavigate()
   const fileInputRef = useRef()
 
-  const [kelasList,    setKelasList]    = useState(() => getKelasData())
+  const [kelasXList,   setKelasXList]   = useState(() => getKelasData())
+  const [kelas1112,    setKelas1112]    = useState(() => getKelas1112())
   const [uploading,    setUploading]    = useState(false)
   const [uploadError,  setUploadError]  = useState('')
   const [dragOver,     setDragOver]     = useState(false)
@@ -39,8 +40,10 @@ export default function Dashboard() {
     }
     setUploading(true); setUploadError('')
     try {
-      const result = await parseExcel(file)
-      setKelasList(result); saveKelasData(result); setFileName(file.name)
+      const { kelasXList, kelas1112List } = await parseExcel(file)
+      setKelasXList(kelasXList); saveKelasData(kelasXList)
+      setKelas1112(kelas1112List); saveKelas1112(kelas1112List)
+      setFileName(file.name)
     } catch(err) {
       setUploadError(err.message)
     } finally { setUploading(false) }
@@ -49,12 +52,14 @@ export default function Dashboard() {
   const onDrop = (e) => { e.preventDefault(); setDragOver(false); handleFile(e.dataTransfer.files[0]) }
 
   function handleMulai() {
-    if (!kelasList) { setUploadError('Upload data siswa terlebih dahulu'); return }
+    if (!kelasXList) { setUploadError('Upload data siswa terlebih dahulu'); return }
     saveTanggal({ tanggal, bulan, tahun, namaHari })
     navigate('/absen')
   }
 
-  const totalSiswa = kelasList?.reduce((s,k) => s+k.jumlahTotal, 0) || 0
+  const totalSiswa   = kelasXList?.reduce((s,k) => s+k.jumlahTotal, 0) || 0
+  const total1112    = kelas1112?.reduce((s,k) => s+k.jumlahTotal, 0) || 0
+  const has1112Excel = kelas1112 && kelas1112.length > 0
 
   return (
     <div className="dash-root">
@@ -63,13 +68,16 @@ export default function Dashboard() {
           <span className="nav-icon">📋</span>
           <span className="nav-title">Rekap Absen</span>
         </div>
-        <div className="nav-right"><ThemeToggle /><button className="nav-logout" onClick={() => { logout(); navigate('/login') }}>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-            <polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
-          </svg>
-          Keluar
-        </button></div>
+        <div className="nav-right">
+          <ThemeToggle />
+          <button className="nav-logout" onClick={() => { logout(); navigate('/login') }}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+            Keluar
+          </button>
+        </div>
       </nav>
 
       <main className="dash-main">
@@ -79,8 +87,7 @@ export default function Dashboard() {
         </div>
 
         <div className="dash-grid">
-
-          {/* SECTION A */}
+          {/* SECTION A: Upload */}
           <section className="dash-card">
             <div className="card-head">
               <div className="card-num">01</div>
@@ -100,7 +107,7 @@ export default function Dashboard() {
             </div>
 
             <div
-              className={`drop-zone ${dragOver ? 'drag-over' : ''} ${kelasList ? 'has-file' : ''}`}
+              className={`drop-zone ${dragOver ? 'drag-over' : ''} ${kelasXList ? 'has-file' : ''}`}
               onClick={() => fileInputRef.current.click()}
               onDragOver={(e) => { e.preventDefault(); setDragOver(true) }}
               onDragLeave={() => setDragOver(false)}
@@ -109,12 +116,15 @@ export default function Dashboard() {
               <input ref={fileInputRef} type="file" accept=".xlsx,.xls,.csv" style={{display:'none'}} onChange={e => handleFile(e.target.files[0])} />
               {uploading ? (
                 <div className="drop-loading"><div className="drop-spinner"/><span>Membaca file...</span></div>
-              ) : kelasList ? (
+              ) : kelasXList ? (
                 <div className="drop-success">
                   <div className="drop-icon success">✓</div>
                   <div>
                     <p className="drop-success-title">{fileName || 'File tersimpan'}</p>
-                    <p className="drop-success-sub">{kelasList.length} kelas · {totalSiswa} siswa terdeteksi</p>
+                    <p className="drop-success-sub">
+                      {kelasXList.length} kelas X · {totalSiswa} siswa
+                      {has1112Excel ? ` · ${kelas1112.length} kelas XI/XII · ${total1112} siswa` : ' · Tidak ada data XI/XII'}
+                    </p>
                   </div>
                   <span className="drop-change">Ganti</span>
                 </div>
@@ -141,20 +151,26 @@ export default function Dashboard() {
               </div>
             )}
 
-            {kelasList && (
+            {/* Info XI/XII */}
+            {kelasXList && (
+              <div className={`info-1112 ${has1112Excel ? 'found' : 'manual'}`}>
+                {has1112Excel ? (
+                  <><span className="info-icon">✓</span> Data kelas XI/XII ditemukan — pengisian otomatis dari Excel</>
+                ) : (
+                  <><span className="info-icon">✎</span> Tidak ada data XI/XII di Excel — akan input manual di halaman absen</>
+                )}
+              </div>
+            )}
+
+            {kelasXList && (
               <div className="preview-wrap">
-                <p className="preview-label">Kelas terdeteksi ({kelasList.length} kelas):</p>
+                <p className="preview-label">Kelas X ({kelasXList.length} kelas):</p>
                 <div className="preview-table-wrap">
                   <table className="preview-table">
                     <thead><tr><th>Kelas</th><th>L</th><th>P</th><th>Total</th></tr></thead>
                     <tbody>
-                      {kelasList.map((k,i) => (
-                        <tr key={i}>
-                          <td>{k.nama}</td>
-                          <td>{k.jumlahSiswa}</td>
-                          <td>{k.jumlahSiswi}</td>
-                          <td><strong>{k.jumlahTotal}</strong></td>
-                        </tr>
+                      {kelasXList.map((k,i) => (
+                        <tr key={i}><td>{k.nama}</td><td>{k.jumlahSiswa}</td><td>{k.jumlahSiswi}</td><td><strong>{k.jumlahTotal}</strong></td></tr>
                       ))}
                     </tbody>
                   </table>
@@ -163,7 +179,7 @@ export default function Dashboard() {
             )}
           </section>
 
-          {/* SECTION B */}
+          {/* SECTION B: Tanggal */}
           <section className="dash-card">
             <div className="card-head">
               <div className="card-num">02</div>
@@ -205,21 +221,13 @@ export default function Dashboard() {
               <span>{namaHari}, {tanggal} {BULAN[bulan-1]} {tahun}</span>
             </div>
 
-            <button className={`btn-mulai ${!kelasList ? 'disabled' : ''}`} onClick={handleMulai} disabled={!kelasList}>
-              {!kelasList ? 'Upload data siswa dulu' : (
-                <>Mulai Isi Absen
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
-                  </svg>
-                </>
+            <button className={`btn-mulai ${!kelasXList ? 'disabled' : ''}`} onClick={handleMulai} disabled={!kelasXList}>
+              {!kelasXList ? 'Upload data siswa dulu' : (
+                <>Mulai Isi Absen <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></>
               )}
             </button>
-
-            {kelasList && (
-              <p className="mulai-hint">Akan mengisi absen untuk <strong>{kelasList.length} kelas</strong></p>
-            )}
+            {kelasXList && <p className="mulai-hint"><strong>{kelasXList.length} kelas X</strong> + <strong>1 sesi XI/XII</strong> akan diisi</p>}
           </section>
-
         </div>
       </main>
     </div>
