@@ -4,6 +4,7 @@ import { getKelasData, getTanggal, getAbsenData, saveAbsenData } from '../utils/
 import { logout } from '../utils/auth'
 import ThemeToggle from '../components/ThemeToggle'
 import Absen1112 from '../components/Absen1112'
+import AbsenUKS from '../components/AbsenUKS'
 import './Absen.css'
 
 const KET_OPTIONS = [
@@ -89,6 +90,9 @@ export default function Absen() {
           <button className={`nav-tab ${tab === '1112' ? 'active' : ''}`} onClick={() => setTab('1112')}>
             Kelas XI / XII
           </button>
+          <button className={`nav-tab ${tab === 'uks' ? 'active' : ''}`} onClick={() => setTab('uks')}>
+            UKS
+          </button>
         </div>
         <div className="nav-right">
           <ThemeToggle />
@@ -105,6 +109,13 @@ export default function Absen() {
       {tab === '1112' && (
         <div className="absen-panel" style={{overflow:'auto'}}>
           <Absen1112 />
+        </div>
+      )}
+
+      {/* ── TAB: UKS ─────────────────────────────────── */}
+      {tab === 'uks' && (
+        <div className="absen-panel" style={{overflow:'auto'}}>
+          <AbsenUKS />
         </div>
       )}
 

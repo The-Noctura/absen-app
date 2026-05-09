@@ -1,0 +1,73 @@
+.uks-root { display:flex; flex-direction:column; gap:16px; height:100%; overflow:hidden; }
+
+.uks-header { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.uks-title  { font-family:var(--font-serif); font-size:28px; font-weight:400; color:var(--text-main); margin-bottom:4px; }
+.uks-sub    { font-size:13px; color:var(--text-sub); opacity:0.65; }
+.uks-badge  { background:linear-gradient(135deg,#854F6C,#522B5B); color:#FBE4D8; font-size:18px; font-weight:700; padding:10px 18px; border-radius:var(--radius-md); white-space:nowrap; flex-shrink:0; }
+
+/* Search */
+.uks-search-wrap  { position:relative; }
+.uks-search-box   { position:relative; display:flex; align-items:center; }
+.uks-search-icon  { position:absolute; left:14px; color:var(--c-mauve); pointer-events:none; }
+.uks-search-input {
+  width:100%; background:var(--bg-input); border:1px solid var(--border-input);
+  border-radius:var(--radius-md); padding:12px 40px;
+  font-size:14px; color:var(--text-main); font-family:var(--font-body);
+  transition:all var(--transition);
+}
+.uks-search-input::placeholder { color:var(--text-muted); }
+.uks-search-input:focus { border-color:var(--c-mauve); background:var(--bg-input-focus); outline:none; box-shadow:0 0 0 3px rgba(133,79,108,0.15); }
+.uks-search-clear { position:absolute; right:14px; background:none; color:var(--c-mauve); font-size:13px; opacity:0.7; padding:4px; }
+.uks-search-clear:hover { opacity:1; }
+
+.uks-dropdown {
+  position:absolute; top:calc(100% + 6px); left:0; right:0; z-index:50;
+  background:var(--bg-card); border:1px solid var(--border-card);
+  border-radius:var(--radius-md); overflow:hidden;
+  box-shadow:var(--shadow-card);
+}
+.uks-suggestion {
+  display:flex; align-items:center; justify-content:space-between;
+  width:100%; padding:10px 16px; background:none; text-align:left;
+  border-bottom:1px solid var(--border-table); transition:background var(--transition);
+}
+.uks-suggestion:last-child { border-bottom:none; }
+.uks-suggestion:hover { background:var(--bg-hover); }
+.sug-nama  { font-size:14px; color:var(--text-main); font-weight:500; }
+.sug-kelas { font-size:12px; color:var(--text-muted); background:var(--bg-hover); padding:2px 8px; border-radius:99px; }
+.uks-no-result { padding:12px 16px; font-size:13px; color:var(--text-muted); display:flex; align-items:center; gap:6px; }
+.uks-add-manual-inline { background:none; color:var(--c-mauve); font-size:13px; font-weight:600; text-decoration:underline; padding:0; }
+
+/* Table */
+.uks-table-wrap { flex:1; overflow-y:auto; border:1px solid var(--border-table); border-radius:var(--radius-md); }
+.uks-table { width:100%; border-collapse:collapse; font-size:14px; }
+.uks-table th { padding:10px 14px; background:var(--bg-th); color:var(--text-th); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; text-align:left; position:sticky; top:0; border-bottom:1px solid var(--border-table); }
+.uks-table td { padding:7px 10px; border-bottom:1px solid var(--border-table); color:var(--text-main); vertical-align:middle; }
+.uks-table tr:last-child td { border-bottom:none; }
+.uks-table tr:hover td { background:var(--bg-hover); }
+.uks-table td.center { text-align:center; color:var(--text-muted); font-size:13px; }
+
+.uks-table tr.from-excel td { }
+.uks-table tr.from-manual td { }
+
+/* Source indicator subtle */
+.uks-table tr.from-excel { border-left:2px solid rgba(45,138,78,0.4); }
+.uks-table tr.from-manual { border-left:2px solid rgba(133,79,108,0.3); }
+
+.cell-text      { font-size:14px; color:var(--text-main); }
+.cell-text.muted { font-size:13px; color:var(--text-sub); }
+.cell-input {
+  width:100%; background:var(--bg-input); border:1px solid transparent;
+  border-radius:var(--radius-sm); padding:7px 10px;
+  font-size:13px; color:var(--text-main); font-family:var(--font-body);
+  transition:all var(--transition);
+}
+.cell-input:focus { border-color:var(--c-mauve); background:var(--bg-input-focus); outline:none; box-shadow:0 0 0 2px rgba(133,79,108,0.15); }
+.ket-input { text-align:center; font-weight:600; text-transform:uppercase; }
+.ket-input.ket-hadir { color:#2d8a4e; }
+
+.remove-btn { background:none; color:var(--text-muted); font-size:13px; padding:4px 8px; border-radius:4px; transition:all var(--transition); }
+.remove-btn:hover { background:rgba(192,57,43,0.15); color:#c0392b; }
+
+.add-manual-btn { display:flex; align-items:center; gap:8px; background:var(--bg-hover); border:1px dashed var(--border-input); color:var(--c-mauve); font-size:13px; font-weight:600; padding:10px 16px; border-radius:var(--radius-sm); transition:all var(--transition); width:fit-content; flex-shrink:0; }
+.add-manual-btn:hover { background:rgba(133,79,108,0.15); border-style:solid; }

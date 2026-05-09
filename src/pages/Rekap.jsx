@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getKelasData, getTanggal, getAbsenData, getAbsen1112 } from '../utils/store'
+import { getKelasData, getTanggal, getAbsenData, getAbsen1112, getAbsenUKS } from '../utils/store'
 import { exportToWord } from '../utils/wordExporter'
 import ThemeToggle from '../components/ThemeToggle'
 import './Rekap.css'
@@ -13,6 +13,7 @@ export default function Rekap() {
   const tanggal    = getTanggal()
   const absenMap   = getAbsenData()
   const absen1112  = getAbsen1112()
+  const absenUKS   = getAbsenUKS()
   const [exporting, setExporting] = useState(false)
 
   if (!kelasList || !tanggal) { navigate('/dashboard'); return null }
@@ -26,13 +27,14 @@ export default function Rekap() {
   })
 
   const rows1112       = (absen1112 || []).filter(r => r.included !== false && r.nama.trim())
+  const rowsUKS        = (absenUKS  || []).filter(r => r.nama.trim())
   const totalSiswa     = kelasList.reduce((s,k) => s+k.jumlahTotal, 0)
   const totalHadir     = rows.reduce((s,r) => s+r.hadir, 0)
   const totalAbsent    = rows.reduce((s,r) => s+r.tidakHadir.length, 0)
 
   async function handleExport() {
     setExporting(true)
-    try { await exportToWord({ kelasList, absenMap, tanggal, absen1112 }) }
+    try { await exportToWord({ kelasList, absenMap, tanggal, absen1112, absenUKS }) }
     catch(e) { alert('Gagal export: ' + e.message) }
     finally { setExporting(false) }
   }
@@ -109,6 +111,30 @@ export default function Rekap() {
               {rows1112.length === 0
                 ? <tr><td colSpan={4} style={{textAlign:'center',padding:'20px',color:'var(--text-muted)'}}>Tidak ada data XI/XII</td></tr>
                 : rows1112.map((r,i) => (
+                    <tr key={r.id}>
+                      <td className="center">{i+1}</td>
+                      <td>{r.nama}</td>
+                      <td>{r.kelas}</td>
+                      <td className="center hadir">{r.ket || 'HADIR'}</td>
+                    </tr>
+                  ))
+              }
+            </tbody>
+          </table>
+        </div>
+
+
+        {/* Tabel 3 — UKS */}
+        <div className="section-label" style={{marginTop:8}}>UKS / Siswa Sakit <span className="section-count">{rowsUKS.length} siswa</span></div>
+        <div className="table-wrap">
+          <table className="rekap-table">
+            <thead>
+              <tr><th>No</th><th>Nama</th><th>Kelas</th><th>Keterangan</th></tr>
+            </thead>
+            <tbody>
+              {rowsUKS.length === 0
+                ? <tr><td colSpan={4} style={{textAlign:'center',padding:'20px',color:'var(--text-muted)'}}>Tidak ada data UKS</td></tr>
+                : rowsUKS.map((r,i) => (
                     <tr key={r.id}>
                       <td className="center">{i+1}</td>
                       <td>{r.nama}</td>

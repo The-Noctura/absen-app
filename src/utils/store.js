@@ -30,3 +30,7 @@ export const saveAbsen1112  = (arr)  => save(KEYS.ABSEN_1112, arr)
 export const getAbsen1112   = ()     => get(KEYS.ABSEN_1112) || []
 
 export const clearSession   = ()     => Object.values(KEYS).forEach(k => sessionStorage.removeItem(k))
+
+// Absen UKS — array of { id, nama, kelas, ket, source }
+export const saveAbsenUKS = (arr) => save('absen_uks', arr)
+export const getAbsenUKS  = ()    => get('absen_uks') || []
